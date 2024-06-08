@@ -393,7 +393,10 @@ GUI.Info.Listen.MouseButton1Click:Connect(function()
 	if GUI.Info.Listen.Text == 'Listen' then
 		local samplesound = Instance.new('Sound') samplesound.Parent = game:GetService('Players').LocalPlayer.PlayerGui
 		samplesound.Looped = false samplesound.SoundId = selectedaudio samplesound:Play() samplesound.Name = 'SampleSound'
-		samplesound.Volume = 5
+		samplesound.Volume = 2
+		samplesound.Ended:Connect(function()
+		GUI.Info.Listen.Text = 'Listen'
+		end)
 		GUI.Info.Listen.Text = 'Stop'
 	else
 		for _, sound in (game:GetService('Players').LocalPlayer.PlayerGui:GetChildren()) do
