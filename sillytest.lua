@@ -195,6 +195,7 @@ GUI.SA.MouseButton1Click:connect(function()
 end)
 
 selectedaudio = nil
+selectedaudiovolume = 0
 function getaudio(place)
 	if running == false then
 		GUI.Load.Visible = true running = true
@@ -243,6 +244,7 @@ function getaudio(place)
 							if GUI.Info.Visible ~= true then
 								GUI.Info.TextLabel.Text = "Name: " ..audioname.. "\n\nID: " .. child.SoundId .. "\n\nWorkspace Name: " .. child.Name .. "\n\nTimeLength: " .. child.TimeLength
 								selectedaudio = child.SoundId
+								selectedaudiovolume = child.Volume
 								GUI.Info.Visible = true
 							end
 						end)
@@ -354,6 +356,7 @@ itemadded = game.DescendantAdded:connect(function(added)
 				if GUI.Info.Visible ~= true then
 					GUI.Info.TextLabel.Text = "Name: " ..audioname.. "\n\nID: " .. added.SoundId .. "\n\nWorkspace Name: " .. added.Name
 					selectedaudio = added.SoundId
+					selectedaudiovolume = added.Volume
 					GUI.Info.Visible = true
 				end
 			end)
@@ -391,12 +394,19 @@ end)
 
 GUI.Info.Listen.MouseButton1Click:Connect(function()
 	if GUI.Info.Listen.Text == 'Listen' then
-		local samplesound = Instance.new('Sound') samplesound.Parent = game:GetService('Players').LocalPlayer.PlayerGui
-		samplesound.Looped = false samplesound.SoundId = selectedaudio samplesound:Play() samplesound.Name = 'SampleSound'
-		samplesound.Volume = 2
+		local samplesound = Instance.new('Sound') 
+		samplesound.Parent = game:GetService('Players').LocalPlayer.PlayerGui
+		samplesound.Looped = false 
+		samplesound.SoundId = selectedaudio 
+		samplesound.Volume = 1
+			
+		samplesound:Play() 
+		samplesound.Name = 'SampleSound'
+			
 		samplesound.Ended:Connect(function()
 		GUI.Info.Listen.Text = 'Listen'
 		end)
+			
 		GUI.Info.Listen.Text = 'Stop'
 	else
 		for _, sound in (game:GetService('Players').LocalPlayer.PlayerGui:GetChildren()) do
